@@ -32,9 +32,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // window.localStorage.removeItem('quizState' + user);
     setUser(null);
     window.localStorage.removeItem('user');
-    window.localStorage.removeItem('quizState');
     nav('/');
   };
 

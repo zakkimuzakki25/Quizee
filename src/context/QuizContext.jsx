@@ -21,11 +21,17 @@ export const QuizProvider = ({ children }) => {
   const { setIsLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    const savedQuiz = JSON.parse(localStorage.getItem("quizState"));
-    if (savedQuiz && savedQuiz.isQuizStarted) {
-      startQuiz()
+  }, [timer]);
+
+  useEffect(() => {
+    resetQuiz();
+    if (user) {
+      const savedQuiz = JSON.parse(localStorage.getItem("quizState" + user));
+      if (savedQuiz && savedQuiz.isQuizStarted) {
+        startQuiz();
+      }
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     let interval;
@@ -45,9 +51,9 @@ export const QuizProvider = ({ children }) => {
   }, [isQuizStarted, currentQuestionIndex]);
 
   useEffect(() => {
-    if (isQuizStarted) {
+    if (isQuizStarted && user) {
       localStorage.setItem(
-        "quizState",
+        "quizState" + user,
         JSON.stringify({
           questions,
           currentQuestionIndex,
@@ -63,7 +69,7 @@ export const QuizProvider = ({ children }) => {
 
   const startQuiz = async () => {
     if (user) {
-      const savedQuiz = JSON.parse(localStorage.getItem("quizState"));
+      const savedQuiz = JSON.parse(localStorage.getItem("quizState" + user));
       if (savedQuiz && savedQuiz.isQuizStarted) {
         setQuestions(savedQuiz.questions);
         setCurrentQuestionIndex(savedQuiz.currentQuestionIndex);
@@ -120,7 +126,7 @@ export const QuizProvider = ({ children }) => {
       };
       existingHistory.push(newHistoryEntry);
       localStorage.setItem("quizHistory", JSON.stringify(existingHistory));
-      localStorage.removeItem("quizState");
+      localStorage.removeItem("quizState" + user);
 
       navigate("/result", {
         state: {
@@ -157,6 +163,7 @@ export const QuizProvider = ({ children }) => {
         score,
         correct,
         answeredQuestions,
+        resetQuiz,
       }}
     >
       {children}

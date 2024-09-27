@@ -53,7 +53,7 @@ const Quiz = () => {
   }, [currentQuestionIndex, questions, isQuizStarted]);
 
   if (!user || !questions.length || !isQuizStarted) {
-    return null; // Prevent rendering before user is authenticated, questions are loaded, or quiz has started
+    return null;
   }
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -68,29 +68,29 @@ const Quiz = () => {
     <div className="flex flex-col bg-primer2 w-screen h-screen">
       <Navbar />
 
-      <div className="flex flex-col w-full h-full justify-center items-center px-24 pt-88">
+      <div className="flex flex-col w-full h-full justify-center items-center px-8 md:px-24 pt-14 md:pt-88">
         {/* header */}
-        <div className="flex flex-row w-full h-fit shrink-0 justify-between items-center text-white px-12 py-6 border-b-4 border-white">
-          <div className="text-2xl flex gap-1.5 justify-center items-center font-inter font-semibold">
-            <span className="text-5xl">{currentQuestionIndex + 1}</span>/{" "}
+        <div className="flex flex-row w-full h-fit shrink-0 justify-between items-center text-white px-6 md:px-12 py-3 md:py-6 border-b-4 md:border-b-4 border-white">
+          <div className="text-lg md:text-2xl flex gap-1.5 justify-center items-center font-inter font-semibold">
+            <span className="text-3xl md:text-5xl">{currentQuestionIndex + 1}</span>/{" "}
             {questions.length}
           </div>
-          <div className="flex flex-row justify-center items-center gap-1.5">
-            <img src={iconTimer} alt="Timer" />
-            <p className="font-medium text-3xl">{formatTime(timer)}</p>
+          <div className="flex flex-row justify-center items-center gap-1 md:gap-1.5">
+            <img src={iconTimer} alt="Timer" className="w-7 md:w-10" />
+            <p className="font-medium text-xl md:text-3xl">{formatTime(timer)}</p>
           </div>
         </div>
 
         {/* soal */}
         <div className="flex flex-col w-full h-full">
           {/* question */}
-          <div className="h-full w-full pt-14">
-            <p className="font-inter font-semibold text-4xl text-white text-center">
+          <div className="flex justify-center items-center h-full md:h-full w-full pt-6 md:pt-14">
+            <p className="font-inter font-semibold text-2xl md:text-4xl text-white text-center">
               {decodeHtmlEntities(currentQuestion.question)}
             </p>
           </div>
           {/* options */}
-          <div className="h-full w-full flex flex-row justify-center gap-8">
+          <div className="h-full w-full flex flex-col pb-14 md:pb-0 md:flex-row justify-end items-center md:items-center md:justify-center gap-4 md:gap-8">
             {shuffledAnswers.map((answer, index) => (
               <Option
                 key={index}
